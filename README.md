@@ -1,50 +1,84 @@
-# React + TypeScript + Vite
+# React i18next Example 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates how to implement internationalization (i18n) in a React application using the react-i18next library.
 
-Currently, two official plugins are available:
+Features
+Utilizes the useTranslation hook for simple translations.
+Employs the Trans component for advanced translations with JSX support.
+Getting Started
+Install Dependencies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Ensure you have the necessary packages installed:
 
-## Expanding the ESLint configuration
+````bash
+pnpm add react-i18next i18next
+````
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Setup i18next
+Create a configuration file (e.g., i18n.ts) to set up your translations and initialize i18next. Here’s a basic example:
 
-- Configure the top-level `parserOptions` property like this:
+````bash
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
+const resources: {
+      en: {
+        translation: {
+          welcomeMessage: "Welcome, <i>user</i>! <b>Test</b>",
+        },
+      },
+      // Add more languages here
     },
-  },
-})
-```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: "en", // default language
+    fallbackLng: "en",
+    interpolation: {
+      escapeValue: false, // React already escapes values
+    },
+  });
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+export default i18n;
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+````
+
+Integrate i18n into Your App
+
+````bash
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './i18n'; // Import the i18n configuration
+
+ReactDOM.render(<App />, document.getElementById('root'));
+````
+
+Example App Component
+````bash
+import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
+
+function App() {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">React i18next</h1>
+      {t('welcomeMessage', { count: 3 })}
+      <Trans i18nKey="welcomeMessage">
+        Welcome, <i>user</i>! <b>Test</b>
+      </Trans>
+    </div>
+  );
+}
+
+export default App;
+````
+Running the Application
+````bash
+pnpm dev
+````
+To add support for additional languages, simply extend the resources object in your i18n configuration with the desired translations.
