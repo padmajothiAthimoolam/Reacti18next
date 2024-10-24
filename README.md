@@ -27,6 +27,11 @@ const resources: {
           welcomeMessage: "Welcome, <i>user</i>! <b>Test</b>",
         },
       },
+      fr: {
+        translation: {
+          welcomeMessage: "Bonjour, <i>user</i>! <b>Test</b>",
+        },
+      }
       // Add more languages here
     },
 
@@ -34,7 +39,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: "en", // default language
+    lng: "fr", // default language
     fallbackLng: "en",
     interpolation: {
       escapeValue: false, // React already escapes values
