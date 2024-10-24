@@ -1,4 +1,4 @@
-# React i18next Example 
+# React i18next Example with package management via pnpm.
 
 This project demonstrates how to implement internationalization (i18n) in a React application using the react-i18next library.
 
